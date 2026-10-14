@@ -1,0 +1,60 @@
+﻿using HC.Catalog.Domain.Enums;
+using HC.Catalog.Domain.ValueObjects;
+
+namespace HC.Catalog.Domain.Entities;
+
+public sealed class CategoryAttributeDefinition
+{
+    private readonly List<AttributeOption> _options = new();
+
+
+    public Guid Id { get; private set; }
+    public string Name { get; private set; } = null!;
+    public AttributeType Type { get; private set; }
+
+    public bool IsRequired { get; private set; }
+
+    public IReadOnlyCollection<AttributeOption> Options =>
+    _options.AsReadOnly();
+
+    private CategoryAttributeDefinition()
+    {
+        // For EF Core
+    }
+    private CategoryAttributeDefinition(
+       Guid id,
+       string name,
+       AttributeType type,
+       bool isRequired)
+    {
+        Id = id;
+        Name = name;
+        Type = type;
+        IsRequired = isRequired;
+    }
+
+    public static CategoryAttributeDefinition Create(
+      string name,
+      AttributeType type,
+      bool isRequired)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException(
+                "Attribute name cannot be empty.",
+                nameof(name));
+
+        name = name.Trim();
+
+        if (name.Length > 100)
+            throw new ArgumentException(
+                "Attribute name cannot exceed 100 characters.",
+                nameof(name));
+
+        return new CategoryAttributeDefinition(
+            Guid.NewGuid(),
+            name,
+            type,
+            isRequired);
+    }
+
+}
