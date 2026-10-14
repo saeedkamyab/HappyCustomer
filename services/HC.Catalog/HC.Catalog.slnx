@@ -1,1 +1,8 @@
-<Solution />
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="HC.Catalog.Domain/HC.Catalog.Domain.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HC.Catalog.UnitTests/HC.Catalog.UnitTests.csproj" />
+  </Folder>
+</Solution>
