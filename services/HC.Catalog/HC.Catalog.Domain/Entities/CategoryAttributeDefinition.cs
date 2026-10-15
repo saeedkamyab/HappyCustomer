@@ -9,7 +9,7 @@ public sealed class CategoryAttributeDefinition
 
 
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
     public AttributeType Type { get; private set; }
 
     public bool IsRequired { get; private set; }
@@ -23,7 +23,7 @@ public sealed class CategoryAttributeDefinition
     }
     private CategoryAttributeDefinition(
        Guid id,
-       string name,
+       Name name,
        AttributeType type,
        bool isRequired)
     {
@@ -34,24 +34,42 @@ public sealed class CategoryAttributeDefinition
     }
 
     public static CategoryAttributeDefinition Create(
-      string name,
+      Name name,
       AttributeType type,
       bool isRequired)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException(
-                "Attribute name cannot be empty.",
-                nameof(name));
-
-        name = name.Trim();
-
-        if (name.Length > 100)
-            throw new ArgumentException(
-                "Attribute name cannot exceed 100 characters.",
-                nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         return new CategoryAttributeDefinition(
             Guid.NewGuid(),
+            name,
+            type,
+            isRequired);
+    }
+    public void Rename(Name newName)
+    {
+        ArgumentNullException.ThrowIfNull(newName);
+
+        if (Name == newName)
+            return;
+
+        Name = newName;
+    }
+    public void ChangeRequired(bool isRequired)
+    {
+        if (IsRequired == isRequired)
+            return;
+
+        IsRequired = isRequired;
+    }
+    public static CategoryAttributeDefinition Rehydrate(
+   Guid id,
+   Name name,
+   AttributeType type,
+   bool isRequired)
+    {
+        return new CategoryAttributeDefinition(
+            id,
             name,
             type,
             isRequired);
@@ -81,6 +99,22 @@ public sealed class CategoryAttributeDefinition
 
         _options.Remove(option);
     }
+    public void ValidateValue(ProductSpecificationValue value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
 
+        if (value.Type != Type)
+            throw new InvalidOperationException(
+                $"Value type must be {Type}.");
+
+        if (Type == AttributeType.Option)
+        {
+            var option = (AttributeOption)value.Value;
+
+            if (!_options.Contains(option))
+                throw new InvalidOperationException(
+                    "The selected option is not valid for this attribute.");
+        }
+    }
 
 }

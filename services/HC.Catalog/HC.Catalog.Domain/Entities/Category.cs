@@ -68,7 +68,22 @@ public sealed class Category
 
         Name = newName;
     }
+    public void ChangeParentCategory(Guid? newParentCategoryId)
+    {
+        if (newParentCategoryId == Guid.Empty)
+            newParentCategoryId = null;
 
+        if (newParentCategoryId == Id)
+        {
+            throw new InvalidOperationException(
+                "A category cannot be its own parent.");
+        }
+
+        if (ParentCategoryId == newParentCategoryId)
+            return;
+
+        ParentCategoryId = newParentCategoryId;
+    }
     public void Activate()
     {
         if (Status == CategoryStatus.Active)
@@ -91,14 +106,23 @@ public sealed class Category
         ArgumentNullException.ThrowIfNull(definition);
 
         if (_attributeDefinitions.Any(
-            x => x.Name.Equals(
-                definition.Name,
+            x => x.Name.Value.Equals(
+                definition.Name.Value,
                 StringComparison.OrdinalIgnoreCase)))
         {
             throw new InvalidOperationException(
-                "An attribute with the same name already exists.");
+           "An attribute with the same name already exists.");
         }
-
+        if (definition.Type == AttributeType.Option && definition.Options.Count == 0)
+        {
+            throw new InvalidOperationException(
+                       "attribute with option type must have at least one option.");
+        }
+        if (definition.Type != AttributeType.Option && definition.Options.Count > 0)
+        {
+            throw new InvalidOperationException(
+                       "Only attributes of type Option can have options.");
+        }
         _attributeDefinitions.Add(definition);
     }
 

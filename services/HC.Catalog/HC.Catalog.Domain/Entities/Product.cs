@@ -44,6 +44,10 @@ public sealed class Product
     public static Product Create(ProductName name, string? description,
       Guid categoryId, Price price)
     {
+
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(price);
+
         if (categoryId == Guid.Empty)
             throw new ArgumentException(
                 "Category is required.",
@@ -58,6 +62,36 @@ public sealed class Product
 
         return product;
     }
+    public void Rename(ProductName newName)
+    {
+        ArgumentNullException.ThrowIfNull(newName);
+
+        if (Name == newName)
+            return;
+
+        Name = newName;
+    }
+
+    public void ChangeDescription(string? description)
+    {
+        if (Description == description)
+            return;
+
+        Description = description;
+    }
+
+
+    public void ChangeCategory(Guid categoryId)
+    {
+        if (categoryId == Guid.Empty)
+            throw new ArgumentException("Category is required.");
+
+        if (CategoryId == categoryId)
+            return;
+
+        CategoryId = categoryId;
+    }
+
     public void ChangePrice(Price newPrice)
     {
         ArgumentNullException.ThrowIfNull(newPrice);
@@ -76,6 +110,74 @@ public sealed class Product
                 newPrice.Amount,
                 DateTime.UtcNow));
     }
+
+    public void Activate()
+    {
+        if (Status == ProductStatus.Active)
+            return;
+
+        if (Price.Amount <= 0)
+            throw new InvalidOperationException(
+                "A product must have a valid price before activation.");
+
+        Status = ProductStatus.Active;
+
+    }
+    public void Deactivate()
+    {
+        if (Status == ProductStatus.Draft)
+            throw new InvalidOperationException(
+                "A draft product cannot be deactivated.");
+
+        if (Status == ProductStatus.Inactive)
+            return;
+
+        Status = ProductStatus.Inactive;
+    }
+
+    public void AddSpecification(ProductSpecification specification)
+    {
+        ArgumentNullException.ThrowIfNull(specification);
+
+        if (_specifications.Any(
+            x => x.AttributeDefinitionId ==
+                 specification.AttributeDefinitionId))
+        {
+            throw new InvalidOperationException(
+                "A specification for this attribute already exists.");
+        }
+
+        _specifications.Add(specification);
+    }
+    public void ChangeSpecification(
+   Guid attributeDefinitionId,
+   ProductSpecificationValue newValue)
+    {
+        var specification = _specifications
+            .FirstOrDefault(x =>
+                x.AttributeDefinitionId == attributeDefinitionId);
+
+        if (specification is null)
+        {
+            throw new InvalidOperationException(
+                "Specification does not exist.");
+        }
+
+        specification.ChangeValue(newValue);
+    }
+    public void RemoveSpecification(
+   Guid attributeDefinitionId)
+    {
+        var specification = _specifications
+            .FirstOrDefault(x =>
+                x.AttributeDefinitionId == attributeDefinitionId);
+
+        if (specification is null)
+            return;
+
+        _specifications.Remove(specification);
+    }
+
 
 }
 
