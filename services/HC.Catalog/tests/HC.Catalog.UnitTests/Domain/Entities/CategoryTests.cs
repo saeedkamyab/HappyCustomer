@@ -65,6 +65,37 @@ public class CategoryTests
 
     #endregion
 
+    #region Change Parent Category Tests
+    [Fact]
+    public void ChangeParentCategory_Should_Update_ParentCategoryId()
+    {
+        var category = Category.Create(CategoryName.Create("Electronics"));
+
+        var newParentCategoryId = Guid.NewGuid();
+
+        category.ChangeParentCategory(newParentCategoryId);
+
+        Assert.Equal(newParentCategoryId, category.ParentCategoryId);
+    }
+    [Fact]
+    public void ChangeParentCategory_Should_Set_ParentCategoryId_To_Null_When_NewParentCategoryId_Is_Empty()
+    {
+        var category = Category.Create(CategoryName.Create("Electronics"), Guid.NewGuid());
+
+        category.ChangeParentCategory(Guid.Empty);
+
+        Assert.Null(category.ParentCategoryId);
+    }
+    [Fact]
+    public void ChangeParentCategory_Should_Throw_Exception_When_NewParentCategoryId_Is_Same_As_CategoryId()
+    {
+        var category = Category.Create(CategoryName.Create("Electronics"));
+
+        Assert.Throws<InvalidOperationException>(() => category.ChangeParentCategory(category.Id));
+    }
+
+    #endregion
+
     #region Activate/Deactivate Category Tests
     [Fact]
     public void Activate_Should_Set_Status_To_Active()
@@ -92,7 +123,7 @@ public class CategoryTests
     {
         var category = Category.Create(CategoryName.Create("Electronics"));
 
-        var definition = CategoryAttributeDefinition.Create("RAM",AttributeType.Number,true);
+        var definition = CategoryAttributeDefinition.Create(Name.Create("RAM"),AttributeType.Number,true);
 
 
         category.AddAttributeDefinition(definition);
@@ -117,12 +148,23 @@ public class CategoryTests
     {
         var category = Category.Create(CategoryName.Create("Electronics"));
 
-        var definition = CategoryAttributeDefinition.Create("RAM", AttributeType.Number, true);
+        var definition = CategoryAttributeDefinition.Create(Name.Create("RAM"), AttributeType.Number, true);
 
         category.AddAttributeDefinition(definition);
 
         Assert.Throws<InvalidOperationException>(() => category.AddAttributeDefinition(definition));
     }
+
+    [Fact]
+    public void AddAttributeDefinition_Should_Throw_Exception_When_Definition_Type_Options_Are_Null_For_Option_Type()
+    {
+        var category = Category.Create(CategoryName.Create("Electronics"));
+
+        var definition = CategoryAttributeDefinition.Create(Name.Create("Color"), AttributeType.Option, true);
+
+        Assert.Throws<InvalidOperationException>(() => category.AddAttributeDefinition(definition));
+    }
+
     #endregion
 
     #region Remove Attribute Definition Tests
@@ -132,7 +174,7 @@ public class CategoryTests
     {
         var category = Category.Create(CategoryName.Create("Electronics"));
 
-        var definition = CategoryAttributeDefinition.Create("RAM", AttributeType.Number, true);
+        var definition = CategoryAttributeDefinition.Create(Name.Create("RAM"), AttributeType.Number, true);
 
         category.AddAttributeDefinition(definition);
 

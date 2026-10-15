@@ -47,6 +47,39 @@ public class ProductTests
         var exception = Assert.Throws<ArgumentException>(() =>
             Product.Create(name, description, categoryId, price));
     }
+    [Fact]
+    public void CreateProduct_Should_Throw_ArgumentNullException_When_NameIsNull()
+    {
+        // Arrange
+        ProductName name = null!;
+
+        var description = "This is a test product.";
+
+        var categoryId = Guid.NewGuid();
+
+        var price = Price.Create(10.99m);
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            Product.Create(name, description, categoryId, price));
+    }
+    [Fact]
+    public void CreateProduct_Should_Throw_ArgumentNullException_When_PriceIsNull()
+    {
+        // Arrange
+        var name = ProductName.Create("Test Product");
+
+        var description = "This is a test product.";
+
+        var categoryId = Guid.NewGuid();
+
+        Price price = null!;
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+            Product.Create(name, description, categoryId, price));
+    }
+
 
     #endregion
 

@@ -11,7 +11,7 @@ public class CategoryAttributeDefinitionTests
     public void CreateCategoryAttributeDefinition_ShouldCreateSuccessfully()
     {
         // Arrange
-        var name = "Brand";
+        var name = Name.Create("Brand");
         var type = AttributeType.Text;
         var isRequired = true;
         // Act
@@ -23,41 +23,32 @@ public class CategoryAttributeDefinitionTests
         Assert.Equal(isRequired, attributeDefinition.IsRequired);
         Assert.Empty(attributeDefinition.Options);
     }
-
     [Fact]
-    public void CreateCategoryAttributeDefinition_ShouldThrowException_WhenNameIsEmpty()
+    public void CreateCategoryAttributeDefinition_ShouldThrowException_WhenNameIsNull()
     {
+        // Arrange
+        Name name = null!;
 
-        var name = "";
         var type = AttributeType.Text;
+
         var isRequired = true;
 
-
-        Assert.Throws<ArgumentException>(() =>
-           CategoryAttributeDefinition.Create(name, type, isRequired));
-    }
-    [Fact]
-    public void CreateCategoryAttributeDefinition_ShouldThrowException_WhenNameExceedsMaxLength()
-    {
-      
-        var name = new string('A', 101); 
-        var type = AttributeType.Text;
-        var isRequired = true;
-   
-
-        Assert.Throws<ArgumentException>(() =>
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
             CategoryAttributeDefinition.Create(name, type, isRequired));
     }
+
+
 
     #endregion
 
     #region AddOption tests
-    
+
     [Fact]
     public void AddOption_Should_Add_Option_Successfully()
     {
        
-        var attributeDefinition = CategoryAttributeDefinition.Create("Color", AttributeType.Option, true);
+        var attributeDefinition = CategoryAttributeDefinition.Create(Name.Create("Color"), AttributeType.Option, true);
 
         var option = AttributeOption.Create("Red");
       
@@ -71,7 +62,7 @@ public class CategoryAttributeDefinitionTests
     public void AddOption_Should_ThrowException_WhenAttributeTypeIsNotOption()
     {
 
-        var attributeDefinition = CategoryAttributeDefinition.Create("Brand", AttributeType.Text, true);
+        var attributeDefinition = CategoryAttributeDefinition.Create(Name.Create("Brand"), AttributeType.Text, true);
        
         var option = AttributeOption.Create("Red");
 
@@ -83,7 +74,7 @@ public class CategoryAttributeDefinitionTests
     public void AddOption_Should_NotAddDuplicateOption()
     {
 
-        var attributeDefinition = CategoryAttributeDefinition.Create("Color", AttributeType.Option, true);
+        var attributeDefinition = CategoryAttributeDefinition.Create(Name.Create("Color"), AttributeType.Option, true);
 
         var option = AttributeOption.Create("Red");
 
@@ -100,7 +91,7 @@ public class CategoryAttributeDefinitionTests
     [Fact]
     public void RemoveOption_Should_Remove_Option_Successfully()
     {
-        var attributeDefinition = CategoryAttributeDefinition.Create("Color", AttributeType.Option, true);
+        var attributeDefinition = CategoryAttributeDefinition.Create(Name.Create("Color"), AttributeType.Option, true);
 
         var option = AttributeOption.Create("Red");
 
@@ -114,7 +105,7 @@ public class CategoryAttributeDefinitionTests
     [Fact]
     public void RemoveOption_Should_ThrowException_When_AttributeType_Is_Not_Option()
     {
-        var attributeDefinition = CategoryAttributeDefinition.Create("Brand", AttributeType.Text, true);
+        var attributeDefinition = CategoryAttributeDefinition.Create(Name.Create("Brand"), AttributeType.Text, true);
 
         var option = AttributeOption.Create("Red");
 
@@ -125,7 +116,7 @@ public class CategoryAttributeDefinitionTests
     [Fact]
     public void RemoveOption_Should_ThrowException_When_Option_IsNull()
     {
-        var attributeDefinition = CategoryAttributeDefinition.Create("Color", AttributeType.Option, true);
+        var attributeDefinition = CategoryAttributeDefinition.Create(Name.Create("Color"), AttributeType.Option, true);
 
         Assert.Throws<ArgumentNullException>(() =>
             attributeDefinition.RemoveOption(null!));
