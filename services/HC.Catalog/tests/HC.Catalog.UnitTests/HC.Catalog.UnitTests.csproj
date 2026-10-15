@@ -19,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SharedKernel">
+      <HintPath>..\..\..\..\..\E-Commerce\building-blocks\BuildingBlocks\SharedKernel\bin\Debug\net10.0\SharedKernel.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
