@@ -57,4 +57,30 @@ public sealed class CategoryAttributeDefinition
             isRequired);
     }
 
+    public void AddOption(AttributeOption option)
+    {
+        ArgumentNullException.ThrowIfNull(option);
+
+        if (Type != AttributeType.Option)
+            throw new InvalidOperationException(
+                "Options can only be added to Option attributes.");
+
+        if (_options.Contains(option))
+            return;
+
+        _options.Add(option);
+    }
+
+    public void RemoveOption(AttributeOption option)
+    {
+        ArgumentNullException.ThrowIfNull(option);
+
+        if (Type != AttributeType.Option)
+            throw new InvalidOperationException(
+                "Options can only be removed from Option attributes.");
+
+        _options.Remove(option);
+    }
+
+
 }
