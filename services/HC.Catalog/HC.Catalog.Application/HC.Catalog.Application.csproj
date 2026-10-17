@@ -8,6 +8,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HC.Catalog.Domain\HC.Catalog.Domain.csproj" />
+      <PackageReference Include="FluentValidation" Version="12.2.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
+    <PackageReference Include="MediatR" Version="14.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Category\Commands\" />
+    <Folder Include="Category\Queries\StoreFront\" />
   </ItemGroup>
 
 </Project>
