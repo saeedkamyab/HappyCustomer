@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Category\Commands\" />
-    <Folder Include="Category\Queries\StoreFront\" />
+    <Folder Include="Category\Queries\StoreFront\GetCategories\" />
   </ItemGroup>
 
 </Project>
