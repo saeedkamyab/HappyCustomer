@@ -1,4 +1,4 @@
-﻿using HC.Catalog.Application.Category.Queries.BackOffice.GetCategoryById;
+﻿//using HC.Catalog.Application.Category.Queries.BackOffice.GetCategoryById;
 using HC.Catalog.Application.Common;
 using HC.Catalog.Application.Common.Enums;
 using static HC.Catalog.Application.Common.Enums.SortEnum;
@@ -16,8 +16,8 @@ public interface ICategoryReadService
        int pageSize,
        CancellationToken cancellationToken);
 
-    Task<CategoryDetailsResult?> GetByIdAsync(
-      Guid id,
-      CancellationToken cancellationToken);
+    //Task<CategoryDetailsResult?> GetByIdAsync(
+    //  Guid id,
+    //  CancellationToken cancellationToken);
 
 }
