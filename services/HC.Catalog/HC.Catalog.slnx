@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="HC.Catalog.Application/HC.Catalog.Application.csproj" Id="3b171293-03ad-4fce-882a-d3790cd13e9b" />
     <Project Path="HC.Catalog.Domain/HC.Catalog.Domain.csproj" />
   </Folder>
   <Folder Name="/tests/">
