@@ -1,11 +1,11 @@
-﻿using Catalog.Application.Abstractions.Persistence.Repositories;
-using Catalog.Domain.Entities;
-using Catalog.Domain.ValueObjects;
-using Catalog.Infrastructure.Persistence.Models;
+﻿using HC.Catalog.Application.Abstractions.Persistence.Repositories;
+using HC.Catalog.Domain.Entities;
+using HC.Catalog.Domain.ValueObjects;
+using HC.Catalog.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Catalog.Infrastructure.Persistence.Repositories;
+namespace HC.Catalog.Infrastructure.Persistence.Repositories;
 
 internal sealed class CategoryRepository : ICategoryRepository
 {

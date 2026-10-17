@@ -1,7 +1,9 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="HC.Catalog.API/HC.Catalog.API.csproj" Id="d42dfe3b-c66b-4688-b29e-19d6a1159203" />
     <Project Path="HC.Catalog.Application/HC.Catalog.Application.csproj" Id="3b171293-03ad-4fce-882a-d3790cd13e9b" />
     <Project Path="HC.Catalog.Domain/HC.Catalog.Domain.csproj" />
+    <Project Path="HC.Catalog.Infrastructure/HC.Catalog.Infrastructure.csproj" Id="b4064fa0-350a-446d-a4a1-3cf40bac4fe6" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/HC.Catalog.UnitTests/HC.Catalog.UnitTests.csproj" />

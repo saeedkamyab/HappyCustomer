@@ -1,12 +1,10 @@
 ﻿using HC.Catalog.Application.Abstractions.Persistence.Repositories.Queries;
-using HC.Catalog.Application.Category.Queries.BackOffice.GetCategories;
 using HC.Catalog.Application.Category.Queries.BackOffice.GetCategoryById;
 using HC.Catalog.Application.Common;
 using HC.Catalog.Application.Common.Enums;
 using HC.Catalog.Application.ReadModels;
 using HC.Catalog.Domain.Entities;
 using HC.Catalog.Domain.Enums;
-using HC.Catalog.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using static HC.Catalog.Application.Common.Enums.SortEnum;
 
